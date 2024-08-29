@@ -21,13 +21,13 @@ public class ConsolMenu {
                 String key = in.next();
                 switch (key) {
                     case "1":
-                        petController.getAllPet();
+                        petControll.getAllPet();
                         break;
                     case "2":
-                        PetType type = menuChoice(in);
+                        PetTipe type = menuChoice(in);
                         if (type != null) {
                             try {
-                                petController.createPet(type);
+                                petControll.createPet(type);
                                 count.add();
                                 System.out.println("ОК");
                             } catch (UncorrectDataException e) {
@@ -40,7 +40,7 @@ public class ConsolMenu {
                             id = menuChoicePet(in);
                             if (id != 0)
                                 try {
-                                    petController.updatePet(id);
+                                    petControll.updatePet(id);
                                 } catch (UncorrectDataException e) {
                                     System.out.println(e.getMessage());
                                 }
@@ -52,7 +52,7 @@ public class ConsolMenu {
                         while (true) {
                             id = menuChoicePet(in);
                             if (id != 0)
-                                petController.getCommands(id);
+                                petControll.getCommands(id);
                             else
                                 break;
                         }
@@ -65,7 +65,7 @@ public class ConsolMenu {
                     case "6":
                         id = menuChoicePet(in);
                         if (id != 0)
-                            petController.delete(id);
+                            petControll.delete(id);
                         break;
                     case "0":
                         flag = false;
@@ -106,7 +106,7 @@ public class ConsolMenu {
             in.nextLine();
             if (id == 0)
                 return id;
-            if (petController.getById(id) == null) {
+            if (petControll.getById(id) == null) {
                 System.out.println("Животного с таким номером нет, попробуйте еще раз, 0 для возврата в основное меню:");
             } else
                 return id;
@@ -121,7 +121,7 @@ public class ConsolMenu {
             String command = sc.nextLine();
             if (command.length() == 1 && command.equals("0"))
                 return;
-            if (petController.trainPet(petId, command))
+            if (petControll.trainPet(petId, command))
                 System.out.println("получилось!");
         }
     }
