@@ -3,10 +3,10 @@ package UserInterfejs;
 import java.util.Scanner;
 
 public class ConsolMenu {
-    PetControll petControll;
+    ControllerPetomcev  controllerPetomcev;
 
-    public ConsolMenu(PetControll controll){
-        this.petControll = controll;
+    public ConsolMenu( ControllerPetomcev controll){
+        this.controllerPetomcev = controll;
     }
 
     public void start() {
@@ -21,13 +21,13 @@ public class ConsolMenu {
                 String key = in.next();
                 switch (key) {
                     case "1":
-                        petControll.getAllPet();
+                        controllerPetomcev.getAllPet();
                         break;
                     case "2":
                         PetTipe type = menuChoice(in);
                         if (type != null) {
                             try {
-                                petControll.createPet(type);
+                                controllerPetomcev.createPet(type);
                                 count.add();
                                 System.out.println("ОК");
                             } catch (UncorrectDataException e) {
@@ -52,7 +52,7 @@ public class ConsolMenu {
                         while (true) {
                             id = menuChoicePet(in);
                             if (id != 0)
-                                petControll.getCommands(id);
+                                controllerPetomcev.getCommands(id);
                             else
                                 break;
                         }
@@ -65,7 +65,7 @@ public class ConsolMenu {
                     case "6":
                         id = menuChoicePet(in);
                         if (id != 0)
-                            petControll.delete(id);
+                            controllerPetomcev.delete(id);
                         break;
                     case "0":
                         flag = false;
@@ -78,18 +78,18 @@ public class ConsolMenu {
         }
     }
 
-    private PetTipe menuChoice(Scanner in){
+    private PetomecTipe menuChoice(Scanner in){
         System.out.println("Какое животное добавить:\ - Кошка\ - Собака\ - Хомяк\ - Возврат в меню");
 
         while (true) {
             String key = in.next();
             switch (key) {
                 case "1":
-                    return PetTipe.Cat;
+                    return PetomecTipe.Cat;
                 case "2":
-                    return PetTipe.Dog;
+                    return PetomecTipe.Dog;
                 case "3":
-                    return PetTipe.Hamster;
+                    return PetomecTipe.Hamster;
                 case "0":
                     return null;
                 default:
@@ -106,7 +106,7 @@ public class ConsolMenu {
             in.nextLine();
             if (id == 0)
                 return id;
-            if (petControll.getById(id) == null) {
+            if (controllerPetomcev.getById(id) == null) {
                 System.out.println("Животного с таким номером нет, попробуйте еще раз, 0 для возврата в основное меню:");
             } else
                 return id;
@@ -121,7 +121,7 @@ public class ConsolMenu {
             String command = sc.nextLine();
             if (command.length() == 1 && command.equals("0"))
                 return;
-            if (petControll.trainPet(petId, command))
+            if (controllerPetomcev.trainPet(petId, command))
                 System.out.println("получилось!");
         }
     }
