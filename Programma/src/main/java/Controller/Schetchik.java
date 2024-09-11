@@ -1,6 +1,6 @@
 package Controller;
 
-public class Schetchik implements {
+public class Schetchik implements AutoCloseable{
     static int summa;
     {
         summa = 0;

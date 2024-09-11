@@ -1,6 +1,6 @@
 package Modeli;
 
-public class PetomecCreator{
+public class PetomecCreator extends Creator{
 
     @Override
     protected Petomec createNewPetomec (PetomecTipe tipe){

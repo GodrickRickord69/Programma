@@ -1,22 +1,34 @@
 package Controller;
 
+import Modeli.*;
+import Servis.Repositorij;
+import Servis.PetomecRepositorij;
+import UserInterfejs.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import Exception.NekorrektData;
 
 public class ControllerPetomcev {
+    private Repositorij<Petomec> petomecRepositorij;
+    private Creator petoecCreator;
+    private final View<Petomec> view;
+    private Validator validator;
 
-    public ControllerPetomcev(){
-
+    public ControllerPetomcev(Repositorij<Petomec> petomecRepositorij){
+        this.petomecRepositorij = petomecRepositorij;
+        this.petomecCreator = new PetomecCreator();
+        this.view = new ConsolView();
+        this.validator = new Validator();
     }
 
     public void createPetomec(PetomecTipe tipe){
         String[] data = new String[] {view.getName(), view.getBirthday()};
         validator.validate(data);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.mm.yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate birthday = LocalDate.parse(data[1], formatter);
         try {
-            int res = PetomecRepositorij.create(petomecCreator.createPetomec(tipe, data[0], birthday));
-            view.showMessage(String.format("Запись добавлена", res));
+            int res = petomecRepositorij.create(petomecCreator.createPetomec(tipe, data[0], birthday));
+            view.showMessage(String.format("%d Запись добавлена", res));
         } catch (RuntimeException e){
             view.showMessage(e. getMessage());
         }
@@ -28,13 +40,13 @@ public class ControllerPetomcev {
 
         validator.validate(data);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.mm.yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate birthday = LocalDate.parse(data[1], formatter);
         petomec.setName(data[0]);
         petomec.setBirthday(birthday);
         try{
-            int res = PetomecRepositorij.update(petomec);
-            view.showMessage(String.format("Запись изменена \n", res));
+            int res = petomecRepositorij.update(petomec);
+            view.showMessage(String.format("%d Запись изменена \n", res));
         }catch (RuntimeException e){
             view.showMessage(e. getMessage());
         }
@@ -42,16 +54,16 @@ public class ControllerPetomcev {
 
     public void getAllPetomec(){
         try{
-            view.printAll(petomecRepositorij.getAll(),Petomec.class);
+            view.printAll(petomecRepositorij.getAll(), Petomec.class);
         } catch (RuntimeException e){
             view.showMessage(e.getMessage());
         }
     }
 
-    @Override
+
     public boolean trainPetomec(int id, String comanda) {
         try{
-            if(((PetomecRepositorij)petomecRepositorij).getComandasById(id,1).contains(comanda))
+            if(((PetomecRepositorij)petomecRepositorij).getComandasById(id, 1).contains(comanda))
                 view.showMessage("это мы умеем");
             else {
                 if (!((PetomecRepositorij)petomecRepositorij).getComandasById(id,2).contains(comanda))

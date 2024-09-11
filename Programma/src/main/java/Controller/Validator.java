@@ -3,7 +3,9 @@ package Controller;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
+import Exception.*;
 
 public class Validator {
     public void validate (String[] data){
@@ -17,21 +19,21 @@ public class Validator {
                     isValidName(data[i]);
                 if(i == 1)
                     isValidDate (data[i]);
-            }catch (UncorrectDataException e){
+            }catch (NekorrektData e){
                 stringBuilder.append("\n");
                 stringBuilder.append(e.getMessage());
                 flag = false;
             }
         }
         if(flag == false){
-            throw new UncorrectDataException(stringBuilder.toString());
+            throw new NekorrektData(stringBuilder.toString());
         }
     }
 
     private boolean isValidName (String name){
-        for (int i=0; i < name.length; i++){
+        for (int i = 0; i < name.length(); i++){
             if(! Character.UnicodeBlock.of(name.charAt(i)).equals(Character.UnicodeBlock.CYRILLIC)){
-                throw new UncorrectDataException(String.format("некорректное имя, допустимы только буквы кирилицы"));
+                throw new NekorrektData(String.format("некорректное имя, допустимы только буквы кирилицы"));
             }
         }
         return true;
@@ -48,13 +50,13 @@ public class Validator {
             date = LocalDate.parse(birthday, formatter);
             day = date.getDayOfMonth();
         }catch (DateTimeException e){
-            throw new UncorrectDataException("некорректный формат даты");
+            throw new NekorrektData("некорректный формат даты");
         }
         if ((Arrays.asList(month_30).contains(date.getMonthValue()) && day > 30) ||
                 (date.isLeapYear() && date.getMonthValue() == 2 && day > 29) ||
                 (!date.isLeapYear() && date.getMonthValue() == 2 && day > 28){
 
-            throw new UncorrectDataException("некорректная дата рождения");
+            throw new NekorrektData("некорректная дата рождения");
         }else
             return true;
     }

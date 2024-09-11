@@ -17,7 +17,9 @@ public abstract class Petomec {
 
     public String getName() {return name;}
 
-    public void setBirthday(LocalDate date) {return birthday;}
+    public void setBirthday(LocalDate date) {this.birthday = date;}
+
+    public LocalDate getBirthdayDate(){return  birthday;}
 
     public String getBirthday(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.mm.yyyy");

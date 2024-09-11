@@ -1,20 +1,17 @@
 package Servis;
 
-import Modeli.Creator;
-import Modeli.Petomec;
-import Modeli.PetomecCreator;
-import Modeli.PetomecTipe;
-
+import Modeli.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PetomecRepositorij implements IRepositorij<Petomec>{
+public class PetomecRepositorij implements Repositorij<Petomec>{
 
     private Creator petCreator;
     private Statement sqlST;
@@ -38,7 +35,7 @@ public class PetomecRepositorij implements IRepositorij<Petomec>{
                 while (resultSet.next()) {
 
                     PetomecTipe tipe = PetomecTipe.getTipe(resultSet.getInt(1));
-                    int id = resoltSet.getInt(2);
+                    int id = resultSet.getInt(2);
                     String name = resultSet.getString(3);
                     LocalDate birthday = resultSet.getDate(4).toLocalDate();
 
@@ -188,13 +185,13 @@ public class PetomecRepositorij implements IRepositorij<Petomec>{
 
     public static Connection getConnection() throws SQLException, IOException{
 
-        Svojstva svojstva = new Svojstva();
+        Properties properties = new Properties();
         try(FileInputStream fil = new FileInputStream("")) {
 
-            svojstva.load(fis);
-            String url = svojstva.getSvojstva("url");
-            String username = svojstva.getSvojstva("username");
-            String password = svojstva.getSvojstva("password");
+            properties.load(fis);
+            String url = properties.getProperty("url");
+            String username = properties.getProperty("username");
+            String password = properties.getProperty("password");
 
             return DriverManager.getConnection(url, username, password);
 
