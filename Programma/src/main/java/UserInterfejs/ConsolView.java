@@ -1,8 +1,11 @@
 package UserInterfejs;
 
 import java.util.Scanner;
+import java.util.List;
+import Modeli.*;
 
 public class ConsolView implements View <Petomec>{
+
     Scanner in;
 
     @Override

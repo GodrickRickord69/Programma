@@ -10,7 +10,7 @@ import Exception.NekorrektData;
 
 public class ControllerPetomcev {
     private Repositorij<Petomec> petomecRepositorij;
-    private Creator petoecCreator;
+    private Creator petomecCreator;
     private final View<Petomec> view;
     private Validator validator;
 
@@ -100,7 +100,7 @@ public class ControllerPetomcev {
 
     public void getComandy(int id){
         try{
-            view.printAll(((PetomecRepositorij)petomecRepositorij).getComandasById(id, 1), String.class);
+            view.printAll(((PetomecRepositorij)petomecRepositorij).getComandsById(id, 1), String.class);
         }catch (RuntimeException e) {
             view.showMessage(e.getMessage());
         }

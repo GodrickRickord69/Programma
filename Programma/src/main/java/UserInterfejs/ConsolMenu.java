@@ -1,6 +1,9 @@
 package UserInterfejs;
 
 import java.util.Scanner;
+import Controller.*;
+import Exception.NekorrektData;
+import Modeli.PetomecTipe;
 
 public class ConsolMenu {
     ControllerPetomcev  controllerPetomcev;
@@ -11,9 +14,10 @@ public class ConsolMenu {
 
     public void start() {
         System.out.println();
-        try (Scanner in = new Scanner(System.in, ); Counter count = new Counter()){
+        try (Scanner in = new Scanner(System.in, ); Schetchik schetchik = new Schetchik()){
+
             Boolean flag = true;
-            int id =;
+            int id;
             while (flag) {
 
                 System.out.println(
@@ -21,16 +25,16 @@ public class ConsolMenu {
                 String key = in.next();
                 switch (key) {
                     case "1":
-                        controllerPetomcev.getAllPet();
+                        controllerPetomcev.getAllPetomec();
                         break;
                     case "2":
-                        PetTipe type = menuChoice(in);
-                        if (type != null) {
+                        PetomecTipe tipe = menuChoice(in);
+                        if (tipe != null) {
                             try {
-                                controllerPetomcev.createPet(type);
-                                count.add();
+                                controllerPetomcev.createPetomec(tipe);
+                                schetchik.add();
                                 System.out.println("ОК");
-                            } catch (UncorrectDataException e) {
+                            } catch (NekorrektData e) {
                                 System.out.println(e.getMessage());
                             }
                         }
@@ -40,8 +44,8 @@ public class ConsolMenu {
                             id = menuChoicePet(in);
                             if (id != 0)
                                 try {
-                                    petControll.updatePet(id);
-                                } catch (UncorrectDataException e) {
+                                    controllerPetomcev.updatePetomec(id);
+                                } catch (NekorrektData e) {
                                     System.out.println(e.getMessage());
                                 }
                             else
@@ -52,7 +56,7 @@ public class ConsolMenu {
                         while (true) {
                             id = menuChoicePet(in);
                             if (id != 0)
-                                controllerPetomcev.getCommands(id);
+                                controllerPetomcev.getComandy(id);
                             else
                                 break;
                         }

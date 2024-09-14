@@ -52,11 +52,11 @@ public class Validator {
         }catch (DateTimeException e){
             throw new NekorrektData("некорректный формат даты");
         }
+
         if ((Arrays.asList(month_30).contains(date.getMonthValue()) && day > 30) ||
                 (date.isLeapYear() && date.getMonthValue() == 2 && day > 29) ||
-                (!date.isLeapYear() && date.getMonthValue() == 2 && day > 28){
-
-            throw new NekorrektData("некорректная дата рождения");
+                (!date.isLeapYear() && date.getMonthValue() == 2 && day > 28)) {
+                throw new NekorrektData("некорректная дата рождения");
         }else
             return true;
     }
