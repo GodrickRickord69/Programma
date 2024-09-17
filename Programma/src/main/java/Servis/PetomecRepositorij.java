@@ -27,11 +27,11 @@ public class PetomecRepositorij implements Repositorij<Petomec>{
         List<Petomec> farm = new ArrayList<Petomec>();
         Petomec petomec;
         try{
-            Class.forName("");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             try (Connection dbConnection = getConnection()){
                 sqlST = dbConnection.createStatement();
-                SQLstr = "SELECT GenusId, Id, PetomecName, Birthday FROM pet_lis ORDER BY Id";
-                resultSet = sqlSt.executeQuery(SQLstr);
+                SQLstr = "SELECT Tipe_Id, Id, Petomec_Name, Birthday FROM pet_lis ORDER BY Id";
+                resultSet = sqlST.executeQuery(SQLstr);
                 while (resultSet.next()) {
 
                     PetomecTipe tipe = PetomecTipe.getTipe(resultSet.getInt(1));
@@ -58,7 +58,7 @@ public class PetomecRepositorij implements Repositorij<Petomec>{
             Class.forName("");
             try (Connection dbConnection = getConnection()){
 
-                SQLstr = "SELECT GenusId, Id, PetName, Birtday FROM pet_list WHERE Id = ?";
+                SQLstr = "SELECT Tipe_Id, Id, PetName, Birtday FROM pet_list WHERE Id = ?";
                 PreparedStatement preparedStatement = dbConnection.prepareStatement(SQLstr);
                 preparedStatement.setInt(1, petomecId);
                 resultSet = preparedStatement.executeQuery();
@@ -86,14 +86,14 @@ public class PetomecRepositorij implements Repositorij<Petomec>{
 
         int rows;
         try {
-            Class.forName("");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             try (Connection dbConnection = getConnection()){
 
-                SQLstr = "";
+                SQLstr = "INSERT INTO petomec_command (PetomecId, CommandId) SELECT ?, (SELECT Id FROM commands WHERE Command_name = ?)";
                 PreparedStatement preparedStatement = dbConnection.prepareStatement(SQLstr);
-                preparedStatement.setInt(1, petomec,getName());
+                preparedStatement.setString(1, petomec.getName());
                 preparedStatement.setDate(2, Date.valueOf(petomec.getBirthday()));
-                preparedStatement.setString(3, petomec.getSimpleName());
+                preparedStatement.setString(3, petomec.getClass().getSimpleName());
 
                 rows = preparedStatement.executeUpdate();
                 return rows;
@@ -106,16 +106,15 @@ public class PetomecRepositorij implements Repositorij<Petomec>{
 
     public void train (int id, String command){
         try {
-            Class.forName("");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             try {
-                String SQLstr = "INSERT INTO pet_command (PetId, CommandId) SELECT ?, (SELECT Id FROM commands WHERE Command_name = ?)";
+                String SQLstr = "INSERT INTO petomec_command (PetomecId, CommandId) SELECT ?, (SELECT Id FROM commands WHERE Command_name = ?)";
                 PreparedStatement preparedStatement = dbConnection.preparedStatement(SQLstr);
                 preparedStatement.setInt(1, id);
                 preparedStatement.setString(2, command);
 
                 preparedStatement.executeUpdate();
             }
-
         }catch (ClassNotFoundException | IOException | SQLException ex){
             Logger.getLogger(PetomecRepositorij.class.getName()).log(Level.SEVERE, null, ex);
             throw new RuntimeException(ex.getMessage());
@@ -124,13 +123,14 @@ public class PetomecRepositorij implements Repositorij<Petomec>{
 
     public List<String> getCommandsById (int petomecId, int commands_tipe) {
 
-        List<String> commands = new ArrayList<>();
+        List <String> commands = new ArrayList <>();
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
             try (Connection dbConnection = getConnection()) {
                 if (commands_tipe == 1) {
-                    SQLstr = "";
+                    SQLstr = "SELECT Command_name FROM pet_command pc JOIN commands c ON pc.CommandId = c.Id WHERE pc.PetId = ?";
                 } else {
-                    SQLstr = "";
+                    SQLstr = "SELECT Command_name FROM commands c JOIN Tipe_command gc ON c.Id = gc.CommandId WHERE gc.Tipe_Id = (SELECT GenusId FROM pet_list WHERE Id = ?)";
                 }
                 PreparedStatement preparedStatement = dbConnection.prepareStatement(SQLstr);
                 preparedStatement.setInt(1, petomecId);
@@ -150,9 +150,9 @@ public class PetomecRepositorij implements Repositorij<Petomec>{
     public int update (Petomec petomec){
         int rows;
         try {
-            Class.forName("");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             try (Connection dbConnection = getConnection()){
-                SQLstr = "";
+                SQLstr = "UPDATE petomec_list SET PetomecName = ?, Birthday = ? WHERE Id = ?";
                 PreparedStatement preparedStatement = dbConnection.prepareStatement(SQLstr);
 
                 preparedStatement.setString(1, petomec.getName());
@@ -171,8 +171,9 @@ public class PetomecRepositorij implements Repositorij<Petomec>{
     @Override
     public void delete (int id) {
         try {
-            Class.forName("");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             try (Connection dbConnection = getConnection()) {
+                SQLstr = "DELETE FROM pet_list WHERE Id = ?";
                 PreparedStatement preparedStatement = dbConnection.prepareStatement(SQLstr);
                 preparedStatement.setInt(1, id);
                 preparedStatement.executeUpdate();
@@ -186,9 +187,9 @@ public class PetomecRepositorij implements Repositorij<Petomec>{
     public static Connection getConnection() throws SQLException, IOException{
 
         Properties properties = new Properties();
-        try(FileInputStream fil = new FileInputStream("")) {
+        try(FileInputStream fil = new FileInputStream("src/Resursy/database.properties")) {
 
-            properties.load(fis);
+            properties.load(fil);
             String url = properties.getProperty("url");
             String username = properties.getProperty("username");
             String password = properties.getProperty("password");

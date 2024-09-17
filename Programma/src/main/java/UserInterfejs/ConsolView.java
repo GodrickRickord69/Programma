@@ -8,9 +8,8 @@ public class ConsolView implements View <Petomec>{
 
     Scanner in;
 
-    @Override
     public ConsolView() {
-        in = new Scanner(System.in, );
+        in = new Scanner(System.in, "ibm866");
     }
 
     @Override

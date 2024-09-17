@@ -14,14 +14,14 @@ public class ConsolMenu {
 
     public void start() {
         System.out.println();
-        try (Scanner in = new Scanner(System.in, ); Schetchik schetchik = new Schetchik()){
+        try (Scanner in = new Scanner(System.in, "ibm866"); Schetchik schetchik = new Schetchik()){
 
-            Boolean flag = true;
+            boolean flag = true;
             int id;
             while (flag) {
 
                 System.out.println(
-                        "- Список всех животных\ - Завести новое животное\ - Изменить данные о животном\ - Что умеет животное\ - Дрессировка\ - Удалить запись\ - Выход");
+                        "\n1- Список всех животных\n2 - Завести новое животное\n3 - Изменить данные о животном\n4 - Что умеет животное\n5 - Дрессировка\n6 - Удалить запись\n7 - Выход");
                 String key = in.next();
                 switch (key) {
                     case "1":
@@ -83,7 +83,7 @@ public class ConsolMenu {
     }
 
     private PetomecTipe menuChoice(Scanner in){
-        System.out.println("Какое животное добавить:\ - Кошка\ - Собака\ - Хомяк\ - Возврат в меню");
+        System.out.println("Какое животное добавить:\n1 - Кошка\n2 - Собака\n3 - Хомяк\n4 - Возврат в меню");
 
         while (true) {
             String key = in.next();
@@ -118,14 +118,14 @@ public class ConsolMenu {
         }
     }
 
-    private void menuTrainPet(int petId, Scanner in) {
+    private void menuTrainPet(int petomecId, Scanner in) {
         Scanner sc = in;
         while (true) {
             System.out.println("Введите новую команду, 0 для возврата в основное меню: ");
             String command = sc.nextLine();
             if (command.length() == 1 && command.equals("0"))
                 return;
-            if (controllerPetomcev.trainPet(petId, command))
+            if (controllerPetomcev.trainPetomec(petomecId, command))
                 System.out.println("получилось!");
         }
     }
