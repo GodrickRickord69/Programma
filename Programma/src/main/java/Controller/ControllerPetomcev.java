@@ -63,10 +63,10 @@ public class ControllerPetomcev {
 
     public boolean trainPetomec(int id, String comanda) {
         try{
-            if(((PetomecRepositorij)petomecRepositorij).getComandasById(id, 1).contains(comanda))
+            if(((PetomecRepositorij)petomecRepositorij).getComandsById(id, 1).contains(comanda))
                 view.showMessage("это мы умеем");
             else {
-                if (!((PetomecRepositorij)petomecRepositorij).getComandasById(id,2).contains(comanda))
+                if (!((PetomecRepositorij)petomecRepositorij).getComandsById(id,2).contains(comanda))
                     view.showMessage("эту команду нельзя выполнить");
                 else {
                     ((PetomecRepositorij)petomecRepositorij).train(id,comanda);

@@ -107,9 +107,9 @@ public class PetomecRepositorij implements Repositorij<Petomec>{
     public void train (int id, String command){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            try {
+            try (Connection dbConnection = getConnection()){
                 String SQLstr = "INSERT INTO petomec_command (PetomecId, CommandId) SELECT ?, (SELECT Id FROM commands WHERE Command_name = ?)";
-                PreparedStatement preparedStatement = dbConnection.preparedStatement(SQLstr);
+                PreparedStatement preparedStatement = dbConnection.prepareStatement(SQLstr);
                 preparedStatement.setInt(1, id);
                 preparedStatement.setString(2, command);
 
@@ -121,7 +121,7 @@ public class PetomecRepositorij implements Repositorij<Petomec>{
         }
     }
 
-    public List<String> getCommandsById (int petomecId, int commands_tipe) {
+    public List<String> getComandsById (int petomecId, int commands_tipe) {
 
         List <String> commands = new ArrayList <>();
         try {
