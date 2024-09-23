@@ -1,13 +1,16 @@
 package Controller;
 
-import java.time.DateTimeException;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import Exception.*;
 
+
+
 public class Validator {
+
     public void validate (String[] data){
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -33,7 +36,9 @@ public class Validator {
     private boolean isValidName (String name){
         for (int i = 0; i < name.length(); i++){
             if(! Character.UnicodeBlock.of(name.charAt(i)).equals(Character.UnicodeBlock.CYRILLIC)){
-                throw new NekorrektData(String.format("некорректное имя, допустимы только буквы кирилицы"));
+                System.out.println(name);
+                System.out.println(i);
+                throw new NekorrektData(String.format("некорректное имя, допустимы только буквы кириллицы"));
             }
         }
         return true;
@@ -46,10 +51,10 @@ public class Validator {
         int day;
 
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.mm.yyyy");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
             date = LocalDate.parse(birthday, formatter);
             day = date.getDayOfMonth();
-        }catch (DateTimeException e){
+        }catch (DateTimeParseException e){
             throw new NekorrektData("некорректный формат даты");
         }
 

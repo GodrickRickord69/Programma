@@ -22,7 +22,7 @@ public abstract class Petomec {
     public LocalDate getBirthdayDate(){return  birthday;}
 
     public String getBirthday(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.mm.yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         return formatter.format(birthday);
     }
 
