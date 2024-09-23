@@ -14,7 +14,7 @@ public class ConsolMenu {
 
     public void start() {
         System.out.println();
-        try (Scanner in = new Scanner(System.in, "ibm866"); Schetchik schetchik = new Schetchik()){
+        try (Scanner in = new Scanner(System.in); Schetchik schetchik = new Schetchik()){
 
             boolean flag = true;
             int id;
@@ -71,7 +71,7 @@ public class ConsolMenu {
                         if (id != 0)
                             controllerPetomcev.delete(id);
                         break;
-                    case "0":
+                    case "7":
                         flag = false;
                         break;
                     default:
@@ -94,7 +94,7 @@ public class ConsolMenu {
                     return PetomecTipe.Dog;
                 case "3":
                     return PetomecTipe.Hamster;
-                case "0":
+                case "7":
                     return null;
                 default:
                     System.out.println("Такого варианта нет, введите число от 0 до 3");
@@ -104,14 +104,14 @@ public class ConsolMenu {
     }
 
     private int menuChoicePet(Scanner in) {
-        System.out.println("\nВведите номер животного, 0 для возврата в основное меню: ");
+        System.out.println("\nВведите номер животного, 7 для возврата в основное меню: ");
         while (true) {
             int id = in.nextInt();
             in.nextLine();
             if (id == 0)
                 return id;
             if (controllerPetomcev.getById(id) == null) {
-                System.out.println("Животного с таким номером нет, попробуйте еще раз, 0 для возврата в основное меню:");
+                System.out.println("Животного с таким номером нет, попробуйте еще раз, 7 для возврата в основное меню:");
             } else
                 return id;
 
@@ -121,7 +121,7 @@ public class ConsolMenu {
     private void menuTrainPet(int petomecId, Scanner in) {
         Scanner sc = in;
         while (true) {
-            System.out.println("Введите новую команду, 0 для возврата в основное меню: ");
+            System.out.println("Введите новую команду, 7 для возврата в основное меню: ");
             String command = sc.nextLine();
             if (command.length() == 1 && command.equals("0"))
                 return;
